@@ -12,6 +12,7 @@ enum GameState
     Win = 2,
     WaitingLose = 3,
     Lose = 4,
+    Pause = 5,
 }
 
 public class GameManager : Singleton<GameManager>
@@ -174,6 +175,23 @@ public class GameManager : Singleton<GameManager>
             timerActive = true;
             timeRemaining = RemoteConfig.FLOAT_LEVEL_TIMER_SECONDS;
         }
+    }
+
+    public void TogglePause(bool isPaused)
+    {
+        if (isPaused)
+        {
+            SetGameState(GameState.Pause);
+        }
+        else
+        {
+            SetGameState(GameState.Playing);
+            if (RemoteConfig.BOOL_LEVEL_TIMER_ON)
+            {
+                timerActive = true;
+            }
+        }
+        
     }
 
     private void HandleTimer()
