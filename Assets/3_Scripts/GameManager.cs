@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 enum GameState
@@ -19,6 +20,8 @@ public class GameManager : Singleton<GameManager>
     Tower tower;
     [SerializeField]
     PercentCounter percentCounter;
+    [SerializeField]
+    TimerCounter timerCounter;
     [SerializeField]
     BallShooter ballShooter;
     [SerializeField]
@@ -51,6 +54,10 @@ public class GameManager : Singleton<GameManager>
     int ballCount;
     GameState gameState = GameState.Intro;
 
+    //game timer params:
+    float timeRemaining = 0f;
+    bool timerActive = false;
+
     private void Awake()
     {
         Application.targetFrameRate = 60;
@@ -66,21 +73,20 @@ public class GameManager : Singleton<GameManager>
         TileColorManager.Instance.SetMaxColors(Mathf.FloorToInt(colorCountPerLevel.Evaluate(SaveData.CurrentLevel)), true);
         minPercent = percentRequiredPerLevel.Evaluate(SaveData.CurrentLevel);
         tower.FloorCount = Mathf.FloorToInt(floorsPerLevel.Evaluate(SaveData.CurrentLevel));
-        
+
         //Check first if the explosive barrels should appear.
         if (RemoteConfig.BOOL_EXPLOSIVE_BARRELS_ENABLED)
         {
             //TODO: Make this prettier 
-            int _lvlForExplosives = SaveData.CurrentLevel - (RemoteConfig.INT_EXPLOSIVE_BARRELS_MIN_LEVEL - 1); 
+            int _lvlForExplosives = SaveData.CurrentLevel - (RemoteConfig.INT_EXPLOSIVE_BARRELS_MIN_LEVEL - 1);
             tower.SpecialTileChance = specialTileChancePerLevel.Evaluate(_lvlForExplosives);
-            Debug.Log("Exploding chance: " + tower.SpecialTileChance);
 
         }
         else
         {
             tower.SpecialTileChance = 0;
         }
-            
+
 
         tower.OnTileDestroyedCallback += OnTileDestroyed;
         tower.BuildTower();
@@ -90,11 +96,21 @@ public class GameManager : Singleton<GameManager>
         ballCountText.text = ballCount.ToString("N0");
         ballShooter.OnBallShot += OnBallShot;
 
-        percentCounter.SetColor(TileColorManager.Instance.GetColor(Mathf.FloorToInt(Random.value * TileColorManager.Instance.ColorCount)));
-        percentCounter.SetLevel(SaveData.CurrentLevel);
+        //purely cosmetic, so the timer color is always the same color for level bar
+        int percentageColor = Mathf.FloorToInt(Random.value * TileColorManager.Instance.ColorCount);
+
+        percentCounter.SetColor(TileColorManager.Instance.GetColor(percentageColor));
         percentCounter.SetValue(SaveData.PreviousHighscore);
         percentCounter.SetShadowValue(SaveData.PreviousHighscore);
         percentCounter.SetValueSmooth(0f);
+
+        timerCounter.gameObject.SetActive(RemoteConfig.BOOL_LEVEL_TIMER_ON);
+        if (RemoteConfig.BOOL_LEVEL_TIMER_ON)
+        {
+            timerCounter.SetColor(TileColorManager.Instance.GetColor(Mathf.FloorToInt(percentageColor)));
+            timerCounter.SetValueSmooth(1f);
+        }
+
     }
 
     void OnBallShot()
@@ -114,6 +130,11 @@ public class GameManager : Singleton<GameManager>
     {
         gameState = state;
         animator.SetInteger("GameState", (int)state);
+
+        if (state != GameState.Playing)
+        {
+            timerActive = false;
+        }
     }
 
     public void OnTileDestroyed(TowerTile tile)
@@ -135,10 +156,41 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    private void Update()
+    {
+        HandleTimer();
+    }
+
     public void StartGame()
     {
         SetGameState(GameState.Playing);
         tower.StartGame();
     }
 
+    public void StartTimer()
+    {
+        if (RemoteConfig.BOOL_LEVEL_TIMER_ON)
+        {
+            timerActive = true;
+            timeRemaining = RemoteConfig.FLOAT_LEVEL_TIMER_SECONDS;
+        }
+    }
+
+    private void HandleTimer()
+    {
+
+        if (timerActive)
+        {
+            timeRemaining -= Time.deltaTime;
+            timerCounter.SetValue(timeRemaining / RemoteConfig.FLOAT_LEVEL_TIMER_SECONDS);
+
+            if (timeRemaining <= 0)
+            {
+                timerActive = false;
+                SetGameState(GameState.WaitingLose);
+            }
+        }
+
+
+    }
 }

@@ -4,7 +4,7 @@
     public static bool BOOL_EXPLOSIVE_BARRELS_ENABLED = true;
     public static int INT_EXPLOSIVE_BARRELS_MIN_LEVEL = 5;
     public static bool BOOL_LEVEL_TIMER_ON = true;
-    public static float FLOAT_LEVEL_TIMER_SECONDS = 60;
+    public static float FLOAT_LEVEL_TIMER_SECONDS = 10;
     public static bool BOOL_COLOR_BLIND_ALT_ENABLED = true; 
     public static bool BOOL_PAUSE_BUTTON_ENABLED = true;
 }

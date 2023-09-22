@@ -18,6 +18,8 @@ public class BallShooter : MonoBehaviour
     private void OnEnable()
     {
         InstantiateProjectile();
+
+        GameManager.Instance.StartTimer();
     }
 
     private void OnDisable()
