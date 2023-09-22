@@ -19524,7 +19524,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
-  colorblindToggle: {fileID: 0}
+  colorblindToggle: {fileID: 2094041437}
   vibrationToggle: {fileID: 810304191}
 --- !u!1 &2094041434
 GameObject:
