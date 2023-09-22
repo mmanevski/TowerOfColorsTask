@@ -101,8 +101,6 @@ public class TowerTile : MonoBehaviour
 
     public void SetFreezed(bool value)
     {
-        freezed = true;
-        return;
         if (freezed != value) {
             freezed = value;
             rigidbody.isKinematic = value;

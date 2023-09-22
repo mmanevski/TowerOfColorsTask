@@ -46,17 +46,31 @@ public class Tower : MonoBehaviour
 
     public void BuildTower()
     {
-        BuildBoxTower();
-        return;
 
         ResetTower();
+
+        if (RemoteConfig.TOWER_BOX_SHAPE_ENABLED)
+        {
+            BuildBoxTower();
+        }
+        else
+        {
+            BuidCylindricalTower();
+        }
+        
+    }
+
+    private void BuidCylindricalTower()
+    {
         tilesByFloor = new List<List<TowerTile>>();
         float towerRadius = CaculateTowerRadius(TileRadius * 2, TileCountPerFloor);
         float angleStep = 360.0f / TileCountPerFloor;
         Quaternion floorRotation = transform.rotation;
-        for (int y = 0; y < FloorCount; y++) {
+        for (int y = 0; y < FloorCount; y++)
+        {
             tilesByFloor.Add(new List<TowerTile>());
-            for (int i = 0; i < TileCountPerFloor; i++) {
+            for (int i = 0; i < TileCountPerFloor; i++)
+            {
                 Quaternion direction = Quaternion.AngleAxis(angleStep * i, Vector3.up) * floorRotation;
                 Vector3 position = transform.position + Vector3.up * y * TileHeight + direction * Vector3.forward * towerRadius;
                 TowerTile tileInstance = Instantiate(Random.value > SpecialTileChance ? TilePrefab : SpecialTilePrefabs[Random.Range(0, SpecialTilePrefabs.Length)], position, direction * TilePrefab.transform.rotation, transform);
@@ -72,14 +86,14 @@ public class Tower : MonoBehaviour
         maxFloor = FloorCount - 1;
 
         SetCurrentFloor(tilesByFloor.Count - PlayableFloors);
-        for (int i = 1; i < PlayableFloors; i++) {
+        for (int i = 1; i < PlayableFloors; i++)
+        {
             SetFloorActive(currentFloor + i, true);
         }
     }
 
     public void BuildBoxTower()
     {
-        ResetTower();
         tilesByFloor = new List<List<TowerTile>>();
         float angleStep = 360.0f / TileCountPerFloor;
         Quaternion floorRotation = transform.rotation;
@@ -101,10 +115,10 @@ public class Tower : MonoBehaviour
                     float floorOffset = 0f;
                     if (z % 2 == 0)
                     {
-                        floorOffset = 0;
+                        floorOffset = TileRadius*0.5f;
                     }
 
-                    Vector3 startPos = transform.position - new Vector3((TilesPerRow-1)* TileRadius, 0f, (TilesPerColumn-1) * TileRadius);
+                    Vector3 startPos = transform.position - new Vector3((TilesPerRow - 1) * TileRadius + floorOffset, 0f, (TilesPerColumn - 1) * TileRadius + floorOffset);
 
                     Quaternion direction = Quaternion.AngleAxis(angleStep * y, Vector3.up) * floorRotation;
                     Vector3 position = startPos + (Vector3.up * z * TileHeight) + (Vector3.right * TileRadius*2f * y) + Vector3.forward*TileRadius *2f * x;
