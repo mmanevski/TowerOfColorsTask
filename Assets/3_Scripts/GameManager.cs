@@ -66,7 +66,22 @@ public class GameManager : Singleton<GameManager>
         TileColorManager.Instance.SetMaxColors(Mathf.FloorToInt(colorCountPerLevel.Evaluate(SaveData.CurrentLevel)), true);
         minPercent = percentRequiredPerLevel.Evaluate(SaveData.CurrentLevel);
         tower.FloorCount = Mathf.FloorToInt(floorsPerLevel.Evaluate(SaveData.CurrentLevel));
-        tower.SpecialTileChance = specialTileChancePerLevel.Evaluate(SaveData.CurrentLevel);
+        
+        //Check first if the explosive barrels should appear.
+        if (RemoteConfig.BOOL_EXPLOSIVE_BARRELS_ENABLED)
+        {
+            //TODO: Make this prettier 
+            int _lvlForExplosives = SaveData.CurrentLevel - (RemoteConfig.INT_EXPLOSIVE_BARRELS_MIN_LEVEL - 1); 
+            tower.SpecialTileChance = specialTileChancePerLevel.Evaluate(_lvlForExplosives);
+            Debug.Log("Exploding chance: " + tower.SpecialTileChance);
+
+        }
+        else
+        {
+            tower.SpecialTileChance = 0;
+        }
+            
+
         tower.OnTileDestroyedCallback += OnTileDestroyed;
         tower.BuildTower();
 
