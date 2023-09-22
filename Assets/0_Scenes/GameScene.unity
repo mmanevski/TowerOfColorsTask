@@ -12902,6 +12902,8 @@ MonoBehaviour:
   TileHeight: 1.2
   TileRadius: 0.5
   TileCountPerFloor: 15
+  TilesPerRow: 5
+  TilesPerColumn: 5
   FloorCount: 15
   PlayableFloors: 8
   SpecialTileChance: 0.1

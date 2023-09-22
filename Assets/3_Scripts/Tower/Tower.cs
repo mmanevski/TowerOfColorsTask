@@ -4,16 +4,24 @@ using UnityEngine;
 
 public class Tower : MonoBehaviour
 {
-    [Header("Tower Settings")]
+    [Header("Tower Settings For Cylindrical Tower")]
     public float TileHeight = 1.2f;
     public float TileRadius = 0.5f;
+
+    [Header("Parameters For Cylindrical Tower")]
     public int TileCountPerFloor = 15;
+
+    [Header("Parameters For Box Tower")]
+    public int TilesPerRow = 5;
+    public int TilesPerColumn = 5;
+
     public int FloorCount = 15;
     public int PlayableFloors = 8;
     public float SpecialTileChance = 0.1f;
     public TowerTile TilePrefab;
     public TowerTile[] SpecialTilePrefabs;
     public bool BuildOnStart = true;
+
 
     [Header("Scene")]
     public Transform CameraTarget;
@@ -38,6 +46,9 @@ public class Tower : MonoBehaviour
 
     public void BuildTower()
     {
+        BuildBoxTower();
+        return;
+
         ResetTower();
         tilesByFloor = new List<List<TowerTile>>();
         float towerRadius = CaculateTowerRadius(TileRadius * 2, TileCountPerFloor);
@@ -65,6 +76,61 @@ public class Tower : MonoBehaviour
             SetFloorActive(currentFloor + i, true);
         }
     }
+
+    public void BuildBoxTower()
+    {
+        ResetTower();
+        tilesByFloor = new List<List<TowerTile>>();
+        float angleStep = 360.0f / TileCountPerFloor;
+        Quaternion floorRotation = transform.rotation;
+        for (int z = 0; z < FloorCount; z++)
+        {
+            tilesByFloor.Add(new List<TowerTile>());
+            for (int x = 0; x < TilesPerRow; x++)
+            {
+                for (int y = 0; y < TilesPerColumn; y++)
+                {
+                    if (x > 0 && x < TilesPerRow -1)
+                    {
+                        if (y > 0 && y < TilesPerColumn-1)
+                        {
+                            continue;
+                        }
+                    }
+
+                    float floorOffset = 0f;
+                    if (z % 2 == 0)
+                    {
+                        floorOffset = 0;
+                    }
+
+                    Vector3 startPos = transform.position - new Vector3((TilesPerRow-1)* TileRadius, 0f, (TilesPerColumn-1) * TileRadius);
+
+                    Quaternion direction = Quaternion.AngleAxis(angleStep * y, Vector3.up) * floorRotation;
+                    Vector3 position = startPos + (Vector3.up * z * TileHeight) + (Vector3.right * TileRadius*2f * y) + Vector3.forward*TileRadius *2f * x;
+                    TowerTile tileInstance = Instantiate(Random.value > SpecialTileChance ? TilePrefab : SpecialTilePrefabs[Random.Range(0, SpecialTilePrefabs.Length)], position, TilePrefab.transform.rotation, transform);
+                    tileInstance.SetColorIndex(Mathf.FloorToInt(Random.value * TileColorManager.Instance.ColorCount));
+                    tileInstance.SetFreezed(true);
+                    tileInstance.Floor = z;
+                    tileInstance.OnTileDestroyed += OnTileDestroyedCallback;
+                    tileInstance.OnTileDestroyed += OnTileDestroyed;
+                    tilesByFloor[z].Add(tileInstance);
+                    floorRotation *= Quaternion.AngleAxis(angleStep / 2.0f, Vector3.up);
+                   
+                }
+            }
+        }
+      
+        maxFloor = FloorCount - 1;
+
+        SetCurrentFloor(tilesByFloor.Count - PlayableFloors);
+        for (int i = 1; i < PlayableFloors; i++)
+        {
+            SetFloorActive(currentFloor + i, true);
+        }
+
+    }
+
 
     public void OnTileDestroyed(TowerTile tile)
     {
