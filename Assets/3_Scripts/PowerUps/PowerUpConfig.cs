@@ -7,17 +7,14 @@ public class PowerUpConfig : ScriptableObject
     [SerializeField]
     int PowerUpId = 1;
     
-    int NumberOfBalls = 5;
-    
     int NumberOfUses = 3;
 
     string SaveNumberOfUses = "NumberOfUsesPU";
 
 
 
-    public void SetUpPowerUp(int numOfBalls, int numOfUses)
+    public void SetUpPowerUp(int numOfUses)
     {
-        NumberOfBalls = numOfBalls;
         if (!PlayerPrefs.HasKey(SaveNumberOfUses + PowerUpId))
         {
             NumberOfUses = numOfUses;
@@ -31,13 +28,12 @@ public class PowerUpConfig : ScriptableObject
     }
 
 
-    public int UsePowerUp()
+    public void UsePowerUp()
     {
         NumberOfUses--;
         PlayerPrefs.SetInt(SaveNumberOfUses + PowerUpId, NumberOfUses);
         Debug.Log("Power up " + PowerUpId + " used. Uses left: " + NumberOfUses);
 
-        return NumberOfBalls;
     }
 
     

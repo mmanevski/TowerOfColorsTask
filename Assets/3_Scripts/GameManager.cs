@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
-enum GameState
+public enum GameState
 {
     Intro = 0,
     Playing = 1,
@@ -13,6 +13,7 @@ enum GameState
     WaitingLose = 3,
     Lose = 4,
     Pause = 5,
+    PowerUp = 6,
 }
 
 public class GameManager : Singleton<GameManager>
@@ -61,6 +62,9 @@ public class GameManager : Singleton<GameManager>
     float timeRemaining = 0f;
     bool timerActive = false;
 
+    PowerUpConfig currentPowerUp;
+    float defaultTimeScale;
+
     private void Awake()
     {
         Application.targetFrameRate = 60;
@@ -68,6 +72,7 @@ public class GameManager : Singleton<GameManager>
         animator.speed = 1.0f / Time.timeScale;
         FxPool.Instance.EnsureQuantity(tileExplosionFx, 3);
         FxPool.Instance.EnsureQuantity(tileDestroyFx, 30);
+        defaultTimeScale = Time.timeScale;
     }
 
     private void Start()
@@ -142,9 +147,14 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    public GameState GetGameState()
+    {
+        return gameState;
+    }
+
     public void OnTileDestroyed(TowerTile tile)
     {
-        if (gameState == GameState.Playing || gameState == GameState.WaitingLose) {
+        if (gameState == GameState.Playing || gameState == GameState.WaitingLose || gameState == GameState.PowerUp) {
             comboUI.CountCombo(tile.transform.position);
             destroyedTileCount++;
             float p = (float)destroyedTileCount / tileCount;
@@ -215,4 +225,17 @@ public class GameManager : Singleton<GameManager>
 
 
     }
+
+    public void HandlePowerUp(PowerUpConfig powerUp)
+    {
+        Time.timeScale = defaultTimeScale*0.5f;
+        SetGameState(GameState.PowerUp);
+    }
+    public void HandlePowerUpModeOver()
+    {
+        Time.timeScale = defaultTimeScale;
+        SetGameState(GameState.Playing);
+    }
+
+
 }

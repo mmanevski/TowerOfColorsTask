@@ -1,6 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
+
+struct SavedTarget
+{
+    public Vector3 position;
+    public TowerTile tile;
+}
 
 public class BallShooter : MonoBehaviour
 {
@@ -14,6 +21,8 @@ public class BallShooter : MonoBehaviour
     public System.Action OnBallShot;
 
     int lastColor;
+    [SerializeField]
+    List<SavedTarget> SavedTargetsList = new List<SavedTarget>();
 
     private void OnEnable()
     {
@@ -39,6 +48,42 @@ public class BallShooter : MonoBehaviour
             colorIndex = (colorIndex + 1) % TileColorManager.Instance.ColorCount;
         currentProjectile.SetColorIndex(colorIndex);
         lastColor = colorIndex;
+    }    
+    
+    void InstantiateProjectileByColor(int colorIndex)
+    {
+        if (currentProjectile)
+            currentProjectile.Explode();
+        currentProjectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity, transform);
+        currentProjectile.SetColorIndex(colorIndex);
+        lastColor = colorIndex;
+    }
+
+    public void SaveTarget(Vector3 targetPosition, TowerTile target)
+    {
+        SavedTarget _target;
+        _target.position = targetPosition;
+        _target.tile = target;
+
+        SavedTargetsList.Add(_target);
+        if (SavedTargetsList.Count == RemoteConfig.POWER_UP_MULTIBALLS_AMOUNT)
+        {
+            StartCoroutine(ShootMultipleBalls());
+        }
+    }
+
+    private IEnumerator ShootMultipleBalls()
+    {
+        foreach (var _target in SavedTargetsList)
+        {
+            InstantiateProjectileByColor(_target.tile.ColorIndex);
+            ShootTarget(_target.position, _target.tile);
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        GameManager.Instance.HandlePowerUpModeOver();
+
+        yield break;
     }
 
     public void ShootTarget(Vector3 targetPosition, TowerTile target)
