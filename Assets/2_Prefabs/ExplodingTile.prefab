@@ -41,9 +41,9 @@ MeshCollider:
   m_Material: {fileID: 13400000, guid: ca1feb1ce558fc34a99149e0beed48ff, type: 2}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 1
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 7984033863786565122, guid: f05a0d6e263638646811ff7f6cee1b0d, type: 3}
 --- !u!1 &4963163471069255593
 GameObject:
@@ -103,6 +103,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -137,9 +138,9 @@ MeshCollider:
   m_Material: {fileID: 13400000, guid: ca1feb1ce558fc34a99149e0beed48ff, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 1
-  m_CookingOptions: 14
+  m_CookingOptions: 30
   m_Mesh: {fileID: 7984033863786565122, guid: f05a0d6e263638646811ff7f6cee1b0d, type: 3}
 --- !u!54 &2004615318925662448
 Rigidbody:
@@ -176,6 +177,7 @@ MonoBehaviour:
   explosionFx: {fileID: 19849376, guid: a169618806c2e1345b7a3f7b15e05417, type: 3}
   colorizeFx: 0
   raycastCheckInterval: 0.25
+  selectedMaterial: {fileID: 2100000, guid: b894ce37f6cd84a4cb0ebd59126aacf7, type: 2}
   waterDamp: 1
   radius: 2
   force: 100

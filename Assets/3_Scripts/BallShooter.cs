@@ -19,6 +19,7 @@ public class BallShooter : MonoBehaviour
     BallProjectile currentProjectile;
 
     public System.Action OnBallShot;
+    public System.Action OnTargetSaved;
 
     int lastColor;
     [SerializeField]
@@ -64,12 +65,15 @@ public class BallShooter : MonoBehaviour
         SavedTarget _target;
         _target.position = targetPosition;
         _target.tile = target;
+        target.SetSelected();
 
         SavedTargetsList.Add(_target);
-        if (SavedTargetsList.Count == RemoteConfig.POWER_UP_MULTIBALLS_AMOUNT)
-        {
-            StartCoroutine(ShootMultipleBalls());
-        }
+        OnTargetSaved.Invoke();
+    }
+
+    public void FireMultiballs()
+    {
+        StartCoroutine(ShootMultipleBalls());
     }
 
     private IEnumerator ShootMultipleBalls()
@@ -78,7 +82,7 @@ public class BallShooter : MonoBehaviour
         {
             InstantiateProjectileByColor(_target.tile.ColorIndex);
             ShootTarget(_target.position, _target.tile);
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.1f);
         }
 
         GameManager.Instance.HandlePowerUpModeOver();

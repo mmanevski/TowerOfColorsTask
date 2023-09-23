@@ -18,6 +18,8 @@ public class TowerTile : MonoBehaviour
     bool colorizeFx;
     [SerializeField]
     float raycastCheckInterval = 0.25f;
+    [SerializeField]
+    Material selectedMaterial;
 
     [SerializeField]
     float waterDamp = 1f;
@@ -92,6 +94,11 @@ public class TowerTile : MonoBehaviour
         if (colorIndex >= 0 && colorIndex < TileColorManager.Instance.ColorCount)
             ColorIndex = colorIndex;
         SetColor(TileColorManager.Instance.GetColor(colorIndex));
+    }
+
+    public void SetSelected()
+    {
+        renderer.sharedMaterial = TileColorManager.GetSharedMaterial(selectedMaterial, TileColorManager.Instance.GetColor(ColorIndex));
     }
 
     public virtual void SetColor(Color color)

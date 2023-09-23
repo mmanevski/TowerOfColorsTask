@@ -31,6 +31,8 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     ComboUI comboUI;
     [SerializeField]
+    PowerUpUI powerUpUI;
+    [SerializeField]
     GameObject pauseButton;
     [SerializeField]
     Animation oneBallRemaining;
@@ -64,6 +66,7 @@ public class GameManager : Singleton<GameManager>
 
     PowerUpConfig currentPowerUp;
     float defaultTimeScale;
+    int multiballsLeft;
 
     private void Awake()
     {
@@ -103,6 +106,7 @@ public class GameManager : Singleton<GameManager>
         ballCount = Mathf.FloorToInt(ballToTileRatioPerLevel.Evaluate(SaveData.CurrentLevel) * tileCount);
         ballCountText.text = ballCount.ToString("N0");
         ballShooter.OnBallShot += OnBallShot;
+        ballShooter.OnTargetSaved += OnTargetSaved;
 
         //purely cosmetic, so the timer color is always the same color for level bar
         int percentageColor = Mathf.FloorToInt(Random.value * TileColorManager.Instance.ColorCount);
@@ -123,14 +127,30 @@ public class GameManager : Singleton<GameManager>
 
     }
 
+    void OnTargetSaved()
+    {
+        multiballsLeft--;
+        powerUpUI.UpdatePowerUpCounter(multiballsLeft);
+        if (multiballsLeft == 0)
+        {
+            powerUpUI.PowerUpInactive();
+            ballShooter.FireMultiballs();
+        }
+    }
+
     void OnBallShot()
     {
+        if (gameState == GameState.PowerUp)
+            return;
+
         ballCount--;
         ballCountText.text = ballCount.ToString("N0");
-        if (ballCount == 1) {
+        if (ballCount == 1)
+        {
             oneBallRemaining.Play();
         }
-        else if (ballCount == 0) {
+        else if (ballCount == 0)
+        {
             SaveData.PreviousHighscore = Mathf.Max(SaveData.PreviousHighscore, ((float)destroyedTileCount / tileCount) / minPercent);
             SetGameState(GameState.WaitingLose);
         }
@@ -145,6 +165,7 @@ public class GameManager : Singleton<GameManager>
         {
             timerActive = false;
         }
+
     }
 
     public GameState GetGameState()
@@ -154,12 +175,14 @@ public class GameManager : Singleton<GameManager>
 
     public void OnTileDestroyed(TowerTile tile)
     {
-        if (gameState == GameState.Playing || gameState == GameState.WaitingLose || gameState == GameState.PowerUp) {
+        if (gameState == GameState.Playing || gameState == GameState.WaitingLose || gameState == GameState.PowerUp)
+        {
             comboUI.CountCombo(tile.transform.position);
             destroyedTileCount++;
             float p = (float)destroyedTileCount / tileCount;
             percentCounter.SetValueSmooth(p / minPercent);
-            if (p >= minPercent) {
+            if (p >= minPercent)
+            {
                 CameraShakeManager.Instance.StopAll(true);
                 CameraShakeManager.Instance.enabled = false;
                 SaveData.CurrentLevel++;
@@ -205,7 +228,7 @@ public class GameManager : Singleton<GameManager>
                 timerActive = true;
             }
         }
-        
+
     }
 
     private void HandleTimer()
@@ -228,14 +251,21 @@ public class GameManager : Singleton<GameManager>
 
     public void HandlePowerUp(PowerUpConfig powerUp)
     {
-        Time.timeScale = defaultTimeScale*0.5f;
+        multiballsLeft = RemoteConfig.POWER_UP_MULTIBALLS_AMOUNT;
+        powerUpUI.PowerUpActive();
+        Time.timeScale = defaultTimeScale * 0.25f;
         SetGameState(GameState.PowerUp);
     }
     public void HandlePowerUpModeOver()
     {
         Time.timeScale = defaultTimeScale;
         SetGameState(GameState.Playing);
+
+        if (RemoteConfig.BOOL_LEVEL_TIMER_ON)
+        {
+            timerActive = true;
+
+        }
+
     }
-
-
 }
