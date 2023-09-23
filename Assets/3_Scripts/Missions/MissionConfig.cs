@@ -2,17 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MissionConfig : MonoBehaviour
+[CreateAssetMenu(menuName = "Mission Config")]
+public class MissionConfig : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
+    public int id;
+    public Sprite image;
+    public string descriptionText;
+    public MissionDifficulty dificulty;
+    public RewardConfig reward;
+
+    private string SaveKey = "Mission";
+
+    public void SetUpMission()
     {
-        
+        if (!PlayerPrefs.HasKey(SaveKey + id))
+        {
+            PlayerPrefs.SetInt(SaveKey + id, 0);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public bool IsAvailable()
     {
-        
+        return PlayerPrefs.GetInt(SaveKey + id, 0) == 0;
+    }
+
+
+    public void FinishMission()
+    {
+        PlayerPrefs.SetInt(SaveKey + id, 1);
+
     }
 }

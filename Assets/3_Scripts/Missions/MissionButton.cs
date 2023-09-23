@@ -14,7 +14,9 @@ public class MissionButton : MonoBehaviour
     TextMeshProUGUI missionReward;
 
     public void SetRewardButton(MissionConfig mission)
-    { 
-        
+    {
+        missionImage.sprite = mission.image;
+        missionText.text = mission.descriptionText;
+        missionReward.text = " + " + mission.reward.amount + " " + mission.reward.descriptionText;
     }
 }

@@ -20,6 +20,10 @@ public class PowerUpConfig : ScriptableObject
             NumberOfUses = numOfUses;
             PlayerPrefs.SetInt(SaveNumberOfUses + PowerUpId, NumberOfUses);
         }
+        else
+        {
+            NumberOfUses = PlayerPrefs.GetInt(SaveNumberOfUses + PowerUpId, NumberOfUses); //TODO: test!!!
+        }
     }
 
     public bool IsAvailable()
