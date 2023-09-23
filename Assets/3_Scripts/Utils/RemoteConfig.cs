@@ -9,9 +9,9 @@
     public static bool BOOL_PAUSE_BUTTON_ENABLED = false;
     public static bool POWER_UP_ONE_ENABLED = true;
     public static int POWER_UP_ONE_USES = 3;
-    public static bool POWER_UP_TWO_ENABLED = false;
+    public static bool POWER_UP_TWO_ENABLED = true;
     public static int POWER_UP_TWO_USES = 3;
-    public static bool POWER_UP_THREE_ENABLED = false;
+    public static bool POWER_UP_THREE_ENABLED = true;
     public static int POWER_UP_THREE_USES = 3;
     public static int POWER_UP_MULTIBALLS_AMOUNT = 5;
     public static bool TOWER_BOX_SHAPE_ENABLED = false;
