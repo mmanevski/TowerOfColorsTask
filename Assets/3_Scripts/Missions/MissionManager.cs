@@ -68,19 +68,19 @@ public class MissionManager : MonoBehaviour
                 case MissionType.DestroyTiles:
                     if (DestroyedTilesNum > mission.goal)
                     {
-                        mission.FinishMission();
+                        FinishMission(mission);
                     }
                     break;
                 case MissionType.HalfTime:
                     if (LevelHalfTime)
                     {
-                        mission.FinishMission();
+                        FinishMission(mission);
                     }
                     break;
                 case MissionType.HalfBalls:
                     if (IsHalfBalls)
                     {
-                        mission.FinishMission();
+                        FinishMission(mission);
                     }
                     break;
                 default:
@@ -90,6 +90,12 @@ public class MissionManager : MonoBehaviour
         }
     }
 
+    private void FinishMission(MissionConfig mission)
+    {
+        mission.FinishMission();
+        GameManager.Instance.HandleReward(mission.reward);
+    }
+         
     public void RecordHigscore(int numTiles)
     {
         DestroyedTilesNum += numTiles;

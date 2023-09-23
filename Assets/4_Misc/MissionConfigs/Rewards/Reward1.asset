@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Reward1
   m_EditorClassIdentifier: 
   descriptionText: Timer Boost
-  amount: 30
+  amount: 1
   type: 0

@@ -16,8 +16,6 @@ public class PowerUpConfig : ScriptableObject
 
     int NumberOfUses = 3;
 
- 
-
     string SaveNumberOfUses = "NumberOfUsesPU";
     string SaveValue = "ValueOfPU";
 
@@ -39,14 +37,19 @@ public class PowerUpConfig : ScriptableObject
         if (!PlayerPrefs.HasKey(SaveValue + PowerUpId))
         {
             value = val;
-            PlayerPrefs.SetInt(SaveValue + PowerUpId, val);
+            NumberOfUses = numOfUses;
+            PlayerPrefs.SetInt(SaveNumberOfUses + PowerUpId, numOfUses);
         }
         else
         {
             NumberOfUses = PlayerPrefs.GetInt(SaveNumberOfUses + PowerUpId, NumberOfUses); //TODO: test!!!
         }
+    }
 
-
+    public void AddNumberOfUses(int amount)
+    { 
+        NumberOfUses += amount;
+        PlayerPrefs.SetInt(SaveNumberOfUses + PowerUpId, NumberOfUses);
     }
 
     public bool IsAvailable()

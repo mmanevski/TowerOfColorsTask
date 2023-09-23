@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -49,7 +50,7 @@ public class PowerUpManager : MonoBehaviour
             }
             else
             {
-                PowerUpsList[i].SetUpPowerUp(powerUpUses, RemoteConfig.POWER_UP_MULTIBALLS_AMOUNT);
+                PowerUpsList[i].SetUpPowerUp(powerUpUses);
             }
 
             PowerUpsButtonList[i].gameObject.SetActive(powerUpEnabled);
@@ -98,6 +99,18 @@ public class PowerUpManager : MonoBehaviour
             config.UsePowerUp();
             GameManager.Instance.HandlePowerUp(config);
             button.UpdatePUButton();
+        }
+    }
+
+    public void AddPowerUp(PowerUpType type, int amount)
+    {
+        foreach (var powerUp in PowerUpsList)
+        {
+            if (type == powerUp.type)
+            {
+                powerUp.AddNumberOfUses(amount);
+                break;
+            }
         }
     }
 

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Reward3
   m_EditorClassIdentifier: 
   descriptionText: Extra Balls
-  amount: 2
+  amount: 1
   type: 1

@@ -17150,6 +17150,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   missionManager: {fileID: 1020473221}
+  powerUpManager: {fileID: 1861756933}
   tileDestroyFx: {fileID: 2316818187418362315, guid: d8ca6c78cee9d8747b5c752258bc411f,
     type: 3}
   tileExplosionFx: {fileID: 19849376, guid: a169618806c2e1345b7a3f7b15e05417, type: 3}

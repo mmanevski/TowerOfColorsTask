@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Reward4
   m_EditorClassIdentifier: 
   descriptionText: Extra Multiballs
-  amount: 2
+  amount: 1
   type: 3

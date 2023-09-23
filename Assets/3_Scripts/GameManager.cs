@@ -48,6 +48,8 @@ public class GameManager : Singleton<GameManager>
     AnimationCurve specialTileChancePerLevel;
     [SerializeField]
     MissionManager missionManager;
+    [SerializeField]
+    PowerUpManager powerUpManager;
 
     [SerializeField]
     ParticleSystem tileDestroyFx;
@@ -65,6 +67,7 @@ public class GameManager : Singleton<GameManager>
 
     //game timer params:
     float timeRemaining = 0f;
+    float totalTime = 0f;
     bool timerActive = false;
 
     PowerUpConfig currentPowerUp;
@@ -127,6 +130,7 @@ public class GameManager : Singleton<GameManager>
         {
             timerCounter.SetColor(TileColorManager.Instance.GetColor(Mathf.FloorToInt(percentageColor)));
             timerCounter.SetValueSmooth(1f);
+            totalTime = RemoteConfig.FLOAT_LEVEL_TIMER_SECONDS;
         }
 
         pauseButton.SetActive(RemoteConfig.BOOL_PAUSE_BUTTON_ENABLED);
@@ -221,7 +225,7 @@ public class GameManager : Singleton<GameManager>
         if (RemoteConfig.BOOL_LEVEL_TIMER_ON)
         {
             timerActive = true;
-            timeRemaining = RemoteConfig.FLOAT_LEVEL_TIMER_SECONDS;
+            timeRemaining = totalTime;
         }
     }
 
@@ -248,7 +252,7 @@ public class GameManager : Singleton<GameManager>
         if (timerActive)
         {
             timeRemaining -= Time.deltaTime;
-            timerCounter.SetValue(timeRemaining / RemoteConfig.FLOAT_LEVEL_TIMER_SECONDS);
+            timerCounter.SetValue(timeRemaining / totalTime);
 
             if (timeRemaining <= 0)
             {
@@ -264,11 +268,48 @@ public class GameManager : Singleton<GameManager>
 
     public void HandlePowerUp(PowerUpConfig powerUp)
     {
+        switch (powerUp.type)
+        {
+            case PowerUpType.Multyball:
+                HandleMultiball();
+                break;
+            case PowerUpType.TimerBoost:
+                totalTime += powerUp.value;
+                timeRemaining += powerUp.value;
+                break;
+            case PowerUpType.ExtraBalls:
+                ballCount += powerUp.value;
+                ballCountText.text = ballCount.ToString("N0");
+                break;
+        }
+
+    }
+
+    private void HandleMultiball()
+    {
         multiballsLeft = RemoteConfig.POWER_UP_MULTIBALLS_AMOUNT;
         powerUpUI.PowerUpActive();
         Time.timeScale = defaultTimeScale * 0.25f;
         SetGameState(GameState.PowerUp);
+
     }
+
+    public void HandleReward(RewardConfig reward)
+    { 
+        switch(reward.type)
+        {
+            case RewardType.TimerBoost:
+                powerUpManager.AddPowerUp(PowerUpType.TimerBoost, reward.amount);
+                break;
+            case RewardType.ExtraPowerup:
+                powerUpManager.AddPowerUp(PowerUpType.Multyball, reward.amount);
+                break;
+            case RewardType.ExtraBalls:
+                powerUpManager.AddPowerUp(PowerUpType.ExtraBalls, reward.amount);
+                break;
+        }
+    }
+
     public void HandlePowerUpModeOver()
     {
         Time.timeScale = defaultTimeScale;

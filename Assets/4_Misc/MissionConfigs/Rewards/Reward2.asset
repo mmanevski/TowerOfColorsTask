@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Reward2
   m_EditorClassIdentifier: 
   descriptionText: Power Ups
-  amount: 2
+  amount: 1
   type: 2
