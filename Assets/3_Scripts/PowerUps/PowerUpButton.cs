@@ -15,37 +15,37 @@ public class PowerUpButton : MonoBehaviour
     [SerializeField]
     GameObject DisabledGraphic;
 
-    PowerUpConfig setConfig;
+    PowerUpType type;
 
     bool IsEnabled;
 
-    public System.Action<PowerUpConfig, PowerUpButton> OnPowerUpUsedCallback;
+    public System.Action<PowerUpType, PowerUpButton> OnPowerUpUsedCallback;
 
-    public void SetUpPUButton(PowerUpConfig config)
+    public void SetUpPUButton(PowerUpType puType, Sprite icon, int num)
     {
-        setConfig = config;
-        UpdatePUButton();
+        type = puType;
+        image.sprite = icon;
+        UpdatePUButton(num);
     }
 
-    public void UpdatePUButton()
+    public void UpdatePUButton(int num)
     {
-        image.sprite = setConfig.image;
-        valueText.text = "x" + setConfig.GetNumOfUses();
-        SetEnabled(setConfig.GetNumOfUses() != 0);
+        
+        valueText.text = "x" + num;
+        SetEnabled(num != 0);
     }
 
     public void SetEnabled(bool isEnabled)
     {
         IsEnabled = isEnabled;
 
-        EnabledGraphic.SetActive(isEnabled);
         DisabledGraphic.SetActive(!isEnabled);
 
     }
 
     public void OnPowerUpButtonPressed()
     {
-        OnPowerUpUsedCallback.Invoke(setConfig, this);
+        OnPowerUpUsedCallback.Invoke(type, this);
     }
 
 }

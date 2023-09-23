@@ -18,4 +18,4 @@ MonoBehaviour:
   descriptionText: Finish Level In Half TIme
   goal: 200
   dificulty: 1
-  reward: {fileID: 11400000, guid: 18e890989a65a8e4693a0fe169273d2b, type: 2}
+  reward: {fileID: 11400000, guid: 34e9e3b551fc903418860c19bdf12b1d, type: 2}

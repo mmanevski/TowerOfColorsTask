@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PowerUpId: 2
   type: 1
-  image: {fileID: 0}
+  image: {fileID: 21300000, guid: 64fbeb49924a85c42b6d1792f3f4b53a, type: 3}
   value: 30

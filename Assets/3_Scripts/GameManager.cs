@@ -288,6 +288,7 @@ public class GameManager : Singleton<GameManager>
     private void HandleMultiball()
     {
         multiballsLeft = RemoteConfig.POWER_UP_MULTIBALLS_AMOUNT;
+        ballCountText.gameObject.SetActive(false);
         powerUpUI.PowerUpActive();
         Time.timeScale = defaultTimeScale * 0.25f;
         SetGameState(GameState.PowerUp);
@@ -314,6 +315,9 @@ public class GameManager : Singleton<GameManager>
     {
         Time.timeScale = defaultTimeScale;
         SetGameState(GameState.Playing);
+        ballCount--;
+        ballCountText.text = ballCount.ToString("N0");
+        ballCountText.gameObject.SetActive(true);
 
         if (RemoteConfig.BOOL_LEVEL_TIMER_ON)
         {

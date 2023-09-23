@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -33,6 +34,8 @@ public class MissionManager : MonoBehaviour
     List<MissionConfig> allMissionsList;
     [SerializeField]
     List<MissionConfig> activeMissionsList = new List<MissionConfig>();
+    [SerializeField]
+    int numberOfActiveMissions = 3;
 
     //keeping stats for deciding rewards
     bool LevelHalfTime = false;
@@ -40,10 +43,46 @@ public class MissionManager : MonoBehaviour
     bool IsHalfBalls = false;
 
 
+
     private void Start()
     {
+        CheckIfEnoughMissions();
+        SetUp();
+    }
+
+    private void SetUp()
+    {
+
         DecideActiveMissions();
         ResetRewardStats();
+    }
+
+    private void CheckIfEnoughMissions()
+    {
+        int counter = 0;
+
+        foreach (var mission in allMissionsList)
+        {
+            if (mission.IsAvailable())
+            { 
+                counter++;
+                if (counter == numberOfActiveMissions)
+                    break;
+            }
+        }
+
+        if (counter < numberOfActiveMissions)
+        {
+            ResetMissions();
+        }
+    }
+
+    private void ResetMissions()
+    {
+        foreach (var mission in allMissionsList)
+        {
+            mission.Reset();
+        }
     }
 
     public void LevelFinished()
@@ -111,6 +150,29 @@ public class MissionManager : MonoBehaviour
 
     private void DecideActiveMissions()
     {
+        MissionConfig firstMission = allMissionsList.FirstOrDefault(i => i.dificulty == MissionDifficulty.Easy && i.IsAvailable());
+        if (firstMission == null)
+        {
+            firstMission = allMissionsList.FirstOrDefault(i => i.IsAvailable());
+        }
+        MissionConfig secondMission = allMissionsList.FirstOrDefault(i => i.dificulty == MissionDifficulty.Medium && i.IsAvailable());
+        if (secondMission == null)
+        {
+            secondMission = allMissionsList.FirstOrDefault(i => i.IsAvailable());
+        }
+        MissionConfig thirdMission = allMissionsList.FirstOrDefault(i => i.dificulty == MissionDifficulty.Hard && i.IsAvailable());
+        if (thirdMission == null)
+        {
+            thirdMission = allMissionsList.FirstOrDefault(i => i.IsAvailable());
+        }
+
+        activeMissionsList.Clear();
+        
+        activeMissionsList.Add(firstMission);
+        activeMissionsList.Add(secondMission);
+        activeMissionsList.Add(thirdMission);
+
+        /*
         for (int i = 0; i < allMissionsList.Count; i++)
         {
             if (allMissionsList[i].IsAvailable())
@@ -118,6 +180,7 @@ public class MissionManager : MonoBehaviour
                 activeMissionsList.Add(allMissionsList[i]);
             }
         }
+        */
     }
 
     public void OnOpenMissionsUI()

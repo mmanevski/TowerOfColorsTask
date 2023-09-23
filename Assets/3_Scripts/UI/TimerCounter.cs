@@ -13,6 +13,10 @@ public class TimerCounter : MonoBehaviour
     [SerializeField]
     Slider percentSlider;
     [SerializeField]
+    Image iconBg;
+    [SerializeField]
+    Image timerIcon;
+    [SerializeField]
     float smoothTime = 0.5f;
     [SerializeField]
     float stepIncrement = 0.01f;
@@ -23,6 +27,7 @@ public class TimerCounter : MonoBehaviour
     {
         border.color = color;
         percentFill.color = color;
+        iconBg.color = color;
     }
 
 

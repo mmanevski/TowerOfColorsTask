@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum PowerUpType
@@ -54,7 +55,7 @@ public class PowerUpManager : MonoBehaviour
             }
 
             PowerUpsButtonList[i].gameObject.SetActive(powerUpEnabled);
-            PowerUpsButtonList[i].SetUpPUButton(PowerUpsList[i]);
+            PowerUpsButtonList[i].SetUpPUButton(PowerUpsList[i].type, PowerUpsList[i].image, PowerUpsList[i].GetNumOfUses());
             PowerUpsButtonList[i].OnPowerUpUsedCallback += OnPowerUpUsed;
         }
         /*
@@ -92,13 +93,15 @@ public class PowerUpManager : MonoBehaviour
         */
     }
 
-    public void OnPowerUpUsed(PowerUpConfig config, PowerUpButton button)
+    public void OnPowerUpUsed(PowerUpType puType, PowerUpButton button)
     {
+        PowerUpConfig config = PowerUpsList.FirstOrDefault<PowerUpConfig>(i => i.type == puType);
+
         if (config.IsAvailable())
         {
             config.UsePowerUp();
             GameManager.Instance.HandlePowerUp(config);
-            button.UpdatePUButton();
+            button.UpdatePUButton(config.GetNumOfUses());
         }
     }
 

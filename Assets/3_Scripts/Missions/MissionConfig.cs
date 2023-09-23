@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -32,7 +33,10 @@ public class MissionConfig : ScriptableObject
     public void FinishMission()
     {
         PlayerPrefs.SetInt(SaveKey + id, 1);
-        Debug.Log("Mission " + id + " completed");
+    }
 
+    internal void Reset()
+    {
+        PlayerPrefs.SetInt(SaveKey + id, 0);
     }
 }
