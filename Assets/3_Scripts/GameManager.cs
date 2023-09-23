@@ -60,6 +60,7 @@ public class GameManager : Singleton<GameManager>
     int tileCount;
     int destroyedTileCount;
     int ballCount;
+    int startingBallCount;
     GameState gameState = GameState.Intro;
 
     //game timer params:
@@ -69,6 +70,8 @@ public class GameManager : Singleton<GameManager>
     PowerUpConfig currentPowerUp;
     float defaultTimeScale;
     int multiballsLeft;
+
+    int ballMiss = 0;
 
     private void Awake()
     {
@@ -106,6 +109,7 @@ public class GameManager : Singleton<GameManager>
 
         tileCount = tower.FloorCount * tower.TileCountPerFloor;
         ballCount = Mathf.FloorToInt(ballToTileRatioPerLevel.Evaluate(SaveData.CurrentLevel) * tileCount);
+        startingBallCount = ballCount;
         ballCountText.text = ballCount.ToString("N0");
         ballShooter.OnBallShot += OnBallShot;
         ballShooter.OnTargetSaved += OnTargetSaved;
@@ -144,7 +148,6 @@ public class GameManager : Singleton<GameManager>
     {
         if (gameState == GameState.PowerUp)
             return;
-
         ballCount--;
         ballCountText.text = ballCount.ToString("N0");
         if (ballCount == 1)
@@ -155,7 +158,6 @@ public class GameManager : Singleton<GameManager>
         {
             SaveData.PreviousHighscore = Mathf.Max(SaveData.PreviousHighscore, ((float)destroyedTileCount / tileCount) / minPercent);
             SetGameState(GameState.WaitingLose);
-            missionManager.RecordHigscore(destroyedTileCount);
             missionManager.LevelFinished();
         }
     }
@@ -183,6 +185,7 @@ public class GameManager : Singleton<GameManager>
         {
             comboUI.CountCombo(tile.transform.position);
             destroyedTileCount++;
+            missionManager.RecordHigscore(destroyedTileCount);
             float p = (float)destroyedTileCount / tileCount;
             percentCounter.SetValueSmooth(p / minPercent);
             if (p >= minPercent)
@@ -192,7 +195,7 @@ public class GameManager : Singleton<GameManager>
                 SaveData.CurrentLevel++;
                 SaveData.PreviousHighscore = 0;
                 SetGameState(GameState.Win);
-                missionManager.RecordHigscore(destroyedTileCount);
+                missionManager.RecordHalfBalls(ballCount > startingBallCount/2f);
                 missionManager.RecordHalfTime(timeRemaining > RemoteConfig.FLOAT_LEVEL_TIMER_SECONDS/2f);
                 missionManager.LevelFinished();
 

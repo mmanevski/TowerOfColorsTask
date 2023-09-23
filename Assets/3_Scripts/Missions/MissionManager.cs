@@ -8,7 +8,7 @@ public enum MissionType
 { 
     DestroyTiles,
     HalfTime, 
-    NoMiss
+    HalfBalls
 }
 public enum RewardType
 { 
@@ -35,9 +35,9 @@ public class MissionManager : MonoBehaviour
     List<MissionConfig> activeMissionsList = new List<MissionConfig>();
 
     //keeping stats for deciding rewards
-    bool levelHalfTime = false;
-    int destroyedTilesNum = 0;
-    bool noMisses = false;
+    bool LevelHalfTime = false;
+    int DestroyedTilesNum = 0;
+    bool IsHalfBalls = false;
 
 
     private void Start()
@@ -54,9 +54,9 @@ public class MissionManager : MonoBehaviour
 
     private void ResetRewardStats()
     {
-        levelHalfTime = true;
-        destroyedTilesNum = 0;
-        noMisses = true;
+        LevelHalfTime = true;
+        DestroyedTilesNum = 0;
+        IsHalfBalls = true;
     }
 
     private void DecideRewards()
@@ -66,19 +66,19 @@ public class MissionManager : MonoBehaviour
             switch (mission.missionType)
             {
                 case MissionType.DestroyTiles:
-                    if (destroyedTilesNum > mission.goal)
+                    if (DestroyedTilesNum > mission.goal)
                     {
                         mission.FinishMission();
                     }
                     break;
                 case MissionType.HalfTime:
-                    if (levelHalfTime)
+                    if (LevelHalfTime)
                     {
                         mission.FinishMission();
                     }
                     break;
-                case MissionType.NoMiss:
-                    if (noMisses)
+                case MissionType.HalfBalls:
+                    if (IsHalfBalls)
                     {
                         mission.FinishMission();
                     }
@@ -92,15 +92,15 @@ public class MissionManager : MonoBehaviour
 
     public void RecordHigscore(int numTiles)
     {
-        destroyedTilesNum += numTiles;
+        DestroyedTilesNum += numTiles;
     }
     public void RecordHalfTime(bool inHalfTime)
     {
-        levelHalfTime = inHalfTime;
+        LevelHalfTime = inHalfTime;
     }
-    public void RecordMiss ()
+    public void RecordHalfBalls (bool isHalfBalls)
     {
-        noMisses = false;
+        IsHalfBalls = isHalfBalls;
     }
 
     private void DecideActiveMissions()

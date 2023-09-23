@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PowerUpType
+{ 
+    Multyball,
+    TimerBoost,
+    ExtraBalls
+}
+
 public class PowerUpManager : MonoBehaviour
 {
     [SerializeField]
@@ -10,6 +17,46 @@ public class PowerUpManager : MonoBehaviour
     List<PowerUpButton> PowerUpsButtonList;
     void Start()
     {
+        for (int i = 0; i < PowerUpsButtonList.Count; i++)
+        {
+            int powerUpUses = 0;
+            bool powerUpEnabled = false;
+
+
+            switch (i)
+            {
+                case 0:
+                    powerUpUses = RemoteConfig.POWER_UP_ONE_USES;
+                    powerUpEnabled = RemoteConfig.POWER_UP_ONE_ENABLED;
+                    break;
+                case 1:
+                    powerUpUses = RemoteConfig.POWER_UP_TWO_USES;
+                    powerUpEnabled = RemoteConfig.POWER_UP_TWO_ENABLED;
+                    break;
+                case 2:
+                    powerUpUses = RemoteConfig.POWER_UP_THREE_USES;
+                    powerUpEnabled = RemoteConfig.POWER_UP_THREE_ENABLED;
+                    break;
+                default:
+                    powerUpUses = RemoteConfig.POWER_UP_THREE_USES;
+                    powerUpEnabled = RemoteConfig.POWER_UP_THREE_ENABLED;
+                    break;
+            }
+
+            if (PowerUpsList[i].type == PowerUpType.Multyball)
+            {
+                PowerUpsList[i].SetUpPowerUp(powerUpUses, RemoteConfig.POWER_UP_MULTIBALLS_AMOUNT);
+            }
+            else
+            {
+                PowerUpsList[i].SetUpPowerUp(powerUpUses, RemoteConfig.POWER_UP_MULTIBALLS_AMOUNT);
+            }
+
+            PowerUpsButtonList[i].gameObject.SetActive(powerUpEnabled);
+            PowerUpsButtonList[i].SetUpPUButton(PowerUpsList[i]);
+            PowerUpsButtonList[i].OnPowerUpUsedCallback += OnPowerUpUsed;
+        }
+        /*
         for (int i = 0; i < PowerUpsList.Count; i++)
         {
             switch (i)
@@ -39,21 +86,19 @@ public class PowerUpManager : MonoBehaviour
                     PowerUpsButtonList[i].OnPowerUpUsedCallback += OnPowerUpUsed;
                     break;
             }
+
+        }
+        */
+    }
+
+    public void OnPowerUpUsed(PowerUpConfig config, PowerUpButton button)
+    {
+        if (config.IsAvailable())
+        {
+            config.UsePowerUp();
+            GameManager.Instance.HandlePowerUp(config);
+            button.UpdatePUButton();
         }
     }
 
-    public void OnPowerUpUsed(int powerUpID)
-    {
-        if (PowerUpsList[powerUpID-1].IsAvailable())
-        {
-            UsePowerUp(powerUpID);
-            PowerUpsButtonList[powerUpID - 1].SetEnabled(PowerUpsList[powerUpID - 1].IsAvailable());
-        }
-    }
-    
-    private void UsePowerUp(int powerUpID)
-    {
-        PowerUpsList[powerUpID-1].UsePowerUp();
-        GameManager.Instance.HandlePowerUp(PowerUpsList[powerUpID - 1]);
-    }
 }

@@ -13,3 +13,6 @@ MonoBehaviour:
   m_Name: PowerUp3
   m_EditorClassIdentifier: 
   PowerUpId: 3
+  type: 2
+  image: {fileID: 0}
+  value: 5
