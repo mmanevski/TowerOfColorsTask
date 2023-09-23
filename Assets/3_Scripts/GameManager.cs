@@ -46,6 +46,8 @@ public class GameManager : Singleton<GameManager>
     AnimationCurve colorCountPerLevel;
     [SerializeField]
     AnimationCurve specialTileChancePerLevel;
+    [SerializeField]
+    MissionManager missionManager;
 
     [SerializeField]
     ParticleSystem tileDestroyFx;
@@ -110,8 +112,8 @@ public class GameManager : Singleton<GameManager>
 
         //purely cosmetic, so the timer color is always the same color for level bar
         int percentageColor = Mathf.FloorToInt(Random.value * TileColorManager.Instance.ColorCount);
-
         percentCounter.SetColor(TileColorManager.Instance.GetColor(percentageColor));
+        percentCounter.SetLevel(SaveData.CurrentLevel);
         percentCounter.SetValue(SaveData.PreviousHighscore);
         percentCounter.SetShadowValue(SaveData.PreviousHighscore);
         percentCounter.SetValueSmooth(0f);
@@ -153,6 +155,8 @@ public class GameManager : Singleton<GameManager>
         {
             SaveData.PreviousHighscore = Mathf.Max(SaveData.PreviousHighscore, ((float)destroyedTileCount / tileCount) / minPercent);
             SetGameState(GameState.WaitingLose);
+            missionManager.RecordHigscore(destroyedTileCount);
+            missionManager.LevelFinished();
         }
     }
 
@@ -188,6 +192,10 @@ public class GameManager : Singleton<GameManager>
                 SaveData.CurrentLevel++;
                 SaveData.PreviousHighscore = 0;
                 SetGameState(GameState.Win);
+                missionManager.RecordHigscore(destroyedTileCount);
+                missionManager.RecordHalfTime(timeRemaining > RemoteConfig.FLOAT_LEVEL_TIMER_SECONDS/2f);
+                missionManager.LevelFinished();
+
                 if (SaveData.VibrationEnabled == 1)
                     Handheld.Vibrate();
             }
@@ -243,6 +251,8 @@ public class GameManager : Singleton<GameManager>
             {
                 timerActive = false;
                 SetGameState(GameState.WaitingLose);
+                missionManager.RecordHigscore(destroyedTileCount);
+                missionManager.LevelFinished();
             }
         }
 

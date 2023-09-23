@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c487f9a2051596d458d14e1ada1c8d3c, type: 3}
   m_Name: Mission1
   m_EditorClassIdentifier: 
+  id: 0
+  missionType: 0
   image: {fileID: 21300000, guid: 1881d50d27ba1e84280ec37f3675c0af, type: 3}
-  descriptionText: Get a x5 Multiplyer
+  descriptionText: Destroy 200 tiles
+  goal: 200
+  dificulty: 0
   reward: {fileID: 11400000, guid: 34e9e3b551fc903418860c19bdf12b1d, type: 2}

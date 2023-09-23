@@ -6,8 +6,10 @@ using UnityEngine;
 public class MissionConfig : ScriptableObject
 {
     public int id;
+    public MissionType missionType;
     public Sprite image;
     public string descriptionText;
+    public int goal = 0;
     public MissionDifficulty dificulty;
     public RewardConfig reward;
 
@@ -30,6 +32,7 @@ public class MissionConfig : ScriptableObject
     public void FinishMission()
     {
         PlayerPrefs.SetInt(SaveKey + id, 1);
+        Debug.Log("Mission " + id + " completed");
 
     }
 }
