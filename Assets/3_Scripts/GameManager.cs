@@ -30,6 +30,8 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     ComboUI comboUI;
     [SerializeField]
+    GameObject pauseButton;
+    [SerializeField]
     Animation oneBallRemaining;
     [SerializeField]
     AnimationCurve percentRequiredPerLevel;
@@ -111,6 +113,8 @@ public class GameManager : Singleton<GameManager>
             timerCounter.SetColor(TileColorManager.Instance.GetColor(Mathf.FloorToInt(percentageColor)));
             timerCounter.SetValueSmooth(1f);
         }
+
+        pauseButton.SetActive(RemoteConfig.BOOL_PAUSE_BUTTON_ENABLED);
 
     }
 
