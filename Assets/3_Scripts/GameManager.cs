@@ -117,19 +117,17 @@ public class GameManager : Singleton<GameManager>
         ballShooter.OnBallShot += OnBallShot;
         ballShooter.OnTargetSaved += OnTargetSaved;
 
-        //purely cosmetic, so the timer color is always the same color for level bar
         int percentageColor = Mathf.FloorToInt(Random.value * TileColorManager.Instance.ColorCount);
+
         percentCounter.SetColor(TileColorManager.Instance.GetColor(percentageColor));
         percentCounter.SetLevel(SaveData.CurrentLevel);
         percentCounter.SetValue(SaveData.PreviousHighscore);
         percentCounter.SetShadowValue(SaveData.PreviousHighscore);
         percentCounter.SetValueSmooth(0f);
 
-        timerCounter.gameObject.SetActive(RemoteConfig.BOOL_LEVEL_TIMER_ON);
         if (RemoteConfig.BOOL_LEVEL_TIMER_ON)
         {
             timerCounter.SetColor(TileColorManager.Instance.GetColor(Mathf.FloorToInt(percentageColor)));
-            timerCounter.SetValueSmooth(1f);
             totalTime = RemoteConfig.FLOAT_LEVEL_TIMER_SECONDS;
         }
 
@@ -224,6 +222,8 @@ public class GameManager : Singleton<GameManager>
     {
         if (RemoteConfig.BOOL_LEVEL_TIMER_ON)
         {
+            timerCounter.gameObject.SetActive(true);
+            timerCounter.SetValueSmooth(1f);
             timerActive = true;
             timeRemaining = totalTime;
         }
@@ -234,10 +234,12 @@ public class GameManager : Singleton<GameManager>
         if (isPaused)
         {
             SetGameState(GameState.Pause);
+            Time.timeScale = 0f;
         }
         else
         {
             SetGameState(GameState.Playing);
+            Time.timeScale = defaultTimeScale;
             if (RemoteConfig.BOOL_LEVEL_TIMER_ON)
             {
                 timerActive = true;
@@ -274,15 +276,28 @@ public class GameManager : Singleton<GameManager>
                 HandleMultiball();
                 break;
             case PowerUpType.TimerBoost:
-                totalTime += powerUp.value;
-                timeRemaining += powerUp.value;
+                HandleTimerBoost(powerUp.value);
                 break;
             case PowerUpType.ExtraBalls:
-                ballCount += powerUp.value;
-                ballCountText.text = ballCount.ToString("N0");
+                HandleExtraBalls(powerUp.value);
                 break;
         }
 
+    }
+
+    private void HandleExtraBalls(int val)
+    {
+        ballCount += val;
+        ballCountText.text = ballCount.ToString("N0");
+    }
+
+    private void HandleTimerBoost(int val)
+    {
+        timeRemaining += val;
+        if (timeRemaining > totalTime)
+        {
+            totalTime = timeRemaining;
+        }
     }
 
     private void HandleMultiball()

@@ -28,7 +28,7 @@ public class PowerUpConfig : ScriptableObject
         }
         else
         {
-            NumberOfUses = PlayerPrefs.GetInt(SaveNumberOfUses + PowerUpId, NumberOfUses); //TODO: test!!!
+            NumberOfUses = PlayerPrefs.GetInt(SaveNumberOfUses + PowerUpId, NumberOfUses);
         }
     }
 
@@ -42,7 +42,7 @@ public class PowerUpConfig : ScriptableObject
         }
         else
         {
-            NumberOfUses = PlayerPrefs.GetInt(SaveNumberOfUses + PowerUpId, NumberOfUses); //TODO: test!!!
+            NumberOfUses = PlayerPrefs.GetInt(SaveNumberOfUses + PowerUpId, NumberOfUses);
         }
     }
 
@@ -66,8 +66,6 @@ public class PowerUpConfig : ScriptableObject
     {
         NumberOfUses--;
         PlayerPrefs.SetInt(SaveNumberOfUses + PowerUpId, NumberOfUses);
-        Debug.Log("Power up " + PowerUpId + " used. Uses left: " + NumberOfUses);
-
     }
 
     

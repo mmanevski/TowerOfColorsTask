@@ -15,11 +15,7 @@ public class TimerCounter : MonoBehaviour
     [SerializeField]
     Image iconBg;
     [SerializeField]
-    Image timerIcon;
-    [SerializeField]
     float smoothTime = 0.5f;
-    [SerializeField]
-    float stepIncrement = 0.01f;
 
     Coroutine animateRoutine;
 
@@ -30,7 +26,6 @@ public class TimerCounter : MonoBehaviour
         iconBg.color = color;
     }
 
-
     public void SetValueSmooth(float value)
     {
         if (animateRoutine != null)
@@ -40,13 +35,10 @@ public class TimerCounter : MonoBehaviour
 
     public void SetValue(float value)
     {
-        //value = (float)System.Math.Truncate(value * 100) / 100;
-        // fast patch to avoid reaching 100% prematurely as Unity doesn't likes doubles.
         if (value < 1 && value > .99f) {
             value = .99f;
         }
         percentSlider.normalizedValue = value;
-        //percentText.text = value.ToString("P0");
     }
 
     IEnumerator AnimateValue(float endValue)

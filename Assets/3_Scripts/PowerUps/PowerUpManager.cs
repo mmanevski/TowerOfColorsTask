@@ -19,11 +19,11 @@ public class PowerUpManager : MonoBehaviour
     List<PowerUpButton> PowerUpsButtonList;
     void Start()
     {
+        //Set up the powerUp buttons, and also the Powerups themselves because they need to get info from RemoteConfig. 
         for (int i = 0; i < PowerUpsButtonList.Count; i++)
         {
             int powerUpUses = 0;
             bool powerUpEnabled = false;
-
 
             switch (i)
             {
@@ -58,41 +58,9 @@ public class PowerUpManager : MonoBehaviour
             PowerUpsButtonList[i].SetUpPUButton(PowerUpsList[i].type, PowerUpsList[i].image, PowerUpsList[i].GetNumOfUses());
             PowerUpsButtonList[i].OnPowerUpUsedCallback += OnPowerUpUsed;
         }
-        /*
-        for (int i = 0; i < PowerUpsList.Count; i++)
-        {
-            switch (i)
-            {
-                case 0:
-                    PowerUpsList[i].SetUpPowerUp(RemoteConfig.POWER_UP_ONE_USES);
-                    PowerUpsButtonList[i].gameObject.SetActive(RemoteConfig.POWER_UP_ONE_ENABLED);
-                    PowerUpsButtonList[i].SetEnabled(PowerUpsList[i].IsAvailable());
-                    PowerUpsButtonList[i].OnPowerUpUsedCallback += OnPowerUpUsed;
-                    break;
-                case 1:
-                    PowerUpsList[i].SetUpPowerUp(RemoteConfig.POWER_UP_TWO_USES);
-                    PowerUpsButtonList[i].gameObject.SetActive(RemoteConfig.POWER_UP_TWO_ENABLED);
-                    PowerUpsButtonList[i].SetEnabled(PowerUpsList[i].IsAvailable());
-                    PowerUpsButtonList[i].OnPowerUpUsedCallback += OnPowerUpUsed;
-                    break;
-                case 2:
-                    PowerUpsList[i].SetUpPowerUp(RemoteConfig.POWER_UP_THREE_USES);
-                    PowerUpsButtonList[i].gameObject.SetActive(RemoteConfig.POWER_UP_THREE_ENABLED);
-                    PowerUpsButtonList[i].SetEnabled(PowerUpsList[i].IsAvailable());
-                    PowerUpsButtonList[i].OnPowerUpUsedCallback += OnPowerUpUsed;
-                    break;
-                default:
-                    PowerUpsList[i].SetUpPowerUp(RemoteConfig.POWER_UP_THREE_USES);
-                    PowerUpsButtonList[i].gameObject.SetActive(RemoteConfig.POWER_UP_TWO_ENABLED);
-                    PowerUpsButtonList[i].SetEnabled(PowerUpsList[i].IsAvailable());
-                    PowerUpsButtonList[i].OnPowerUpUsedCallback += OnPowerUpUsed;
-                    break;
-            }
-
-        }
-        */
     }
 
+    //Fired when a powerUp button is clicked. 
     public void OnPowerUpUsed(PowerUpType puType, PowerUpButton button)
     {
         PowerUpConfig config = PowerUpsList.FirstOrDefault<PowerUpConfig>(i => i.type == puType);
@@ -105,6 +73,7 @@ public class PowerUpManager : MonoBehaviour
         }
     }
 
+    //For adding aditional powerUps during gameplay, from mission rewards.
     public void AddPowerUp(PowerUpType type, int amount)
     {
         foreach (var powerUp in PowerUpsList)

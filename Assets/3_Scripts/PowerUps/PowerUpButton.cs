@@ -11,13 +11,9 @@ public class PowerUpButton : MonoBehaviour
     [SerializeField]
     TextMeshProUGUI valueText;
     [SerializeField]
-    GameObject EnabledGraphic;
-    [SerializeField]
     GameObject DisabledGraphic;
 
     PowerUpType type;
-
-    bool IsEnabled;
 
     public System.Action<PowerUpType, PowerUpButton> OnPowerUpUsedCallback;
 
@@ -30,17 +26,13 @@ public class PowerUpButton : MonoBehaviour
 
     public void UpdatePUButton(int num)
     {
-        
         valueText.text = "x" + num;
         SetEnabled(num != 0);
     }
 
     public void SetEnabled(bool isEnabled)
     {
-        IsEnabled = isEnabled;
-
         DisabledGraphic.SetActive(!isEnabled);
-
     }
 
     public void OnPowerUpButtonPressed()
