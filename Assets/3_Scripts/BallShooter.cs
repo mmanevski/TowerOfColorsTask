@@ -25,6 +25,8 @@ public class BallShooter : MonoBehaviour
     [SerializeField]
     List<SavedTarget> SavedTargetsList = new List<SavedTarget>();
 
+    bool isShootingMultiballs = false;
+
     private void OnEnable()
     {
         InstantiateProjectile();
@@ -62,7 +64,7 @@ public class BallShooter : MonoBehaviour
 
     public void SaveTarget(Vector3 targetPosition, TowerTile target)
     {
-        if (target.IsSelected())
+        if (target.IsSelected() || isShootingMultiballs)
             return;
 
         SavedTarget _target;
@@ -81,15 +83,17 @@ public class BallShooter : MonoBehaviour
 
     private IEnumerator ShootMultipleBalls()
     {
+        isShootingMultiballs = true;
         foreach (var _target in SavedTargetsList)
         {
             InstantiateProjectileByColor(_target.tile.ColorIndex);
             ShootTarget(_target.position, _target.tile);
             yield return new WaitForSeconds(0.1f);
         }
-
+        
         GameManager.Instance.HandlePowerUpModeOver();
-
+        SavedTargetsList.Clear();
+        isShootingMultiballs = false;
         yield break;
     }
 

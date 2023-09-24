@@ -34,7 +34,7 @@ public class PowerUpConfig : ScriptableObject
 
     public void SetUpPowerUp(int numOfUses, int val)
     {
-        if (!PlayerPrefs.HasKey(SaveValue + PowerUpId))
+        if (!PlayerPrefs.HasKey(SaveNumberOfUses + PowerUpId))
         {
             value = val;
             NumberOfUses = numOfUses;

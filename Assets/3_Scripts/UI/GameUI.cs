@@ -44,6 +44,11 @@ public class GameUI : MonoBehaviour
 
     public void OnPointerDrag(BaseEventData eventData)
     {
+        if (GameManager.Instance.GetGameState() == GameState.PowerUp)
+        {
+            return;
+        }
+
         dragging = true;
         PointerEventData pointerEventData = eventData as PointerEventData;
         targetAngle += pointerEventData.delta.x * rotationFactor;
