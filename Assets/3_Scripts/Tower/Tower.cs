@@ -92,6 +92,13 @@ public class Tower : MonoBehaviour
         }
     }
 
+    public int GetTotalNumberOfTiles()
+    {
+        int totalTiles = tilesByFloor.Count * tilesByFloor[0].Count;
+
+        return totalTiles;
+    }
+
     public void BuildBoxTower()
     {
         tilesByFloor = new List<List<TowerTile>>();

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2
   missionType: 2
-  image: {fileID: 21300000, guid: 1881d50d27ba1e84280ec37f3675c0af, type: 3}
+  image: {fileID: 21300000, guid: 61ecdded871dc5c4b9de3ce27684988f, type: 3}
   descriptionText: Don't use half balls
   goal: 200
   dificulty: 0

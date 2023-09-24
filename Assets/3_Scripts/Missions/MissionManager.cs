@@ -33,7 +33,7 @@ public class MissionManager : MonoBehaviour
     [SerializeField]
     List<MissionConfig> allMissionsList;
     [SerializeField]
-    List<MissionConfig> activeMissionsList = new List<MissionConfig>();
+    ActiveMissionsHolder activeMissionsHolder;
     [SerializeField]
     int numberOfActiveMissions = 3;
 
@@ -41,18 +41,37 @@ public class MissionManager : MonoBehaviour
     bool LevelHalfTime = false;
     int DestroyedTilesNum = 0;
     bool IsHalfBalls = false;
-
-
-
+   
     private void Start()
     {
-        CheckIfEnoughMissions();
-        SetUp();
+        if (!RemoteConfig.BOOL_MISSION_SYSTEM_ENABLED)
+            return;
+        if (AreMissionsDone())
+        {
+            CheckIfEnoughMissions();
+            SetUp();
+        }
+    }
+
+    private bool AreMissionsDone()
+    {
+        bool areDone = true;
+        foreach (var mission in activeMissionsHolder.activeMissionsList)
+        {
+            if (mission.IsAvailable())
+            {
+                areDone = false;
+                break;
+            }
+
+        }
+
+        return areDone;
+
     }
 
     private void SetUp()
     {
-
         DecideActiveMissions();
         ResetRewardStats();
     }
@@ -100,7 +119,7 @@ public class MissionManager : MonoBehaviour
 
     private void DecideRewards()
     { 
-        foreach (MissionConfig mission in activeMissionsList)
+        foreach (MissionConfig mission in activeMissionsHolder.activeMissionsList)
         {
             switch (mission.missionType)
             {
@@ -166,27 +185,17 @@ public class MissionManager : MonoBehaviour
             thirdMission = allMissionsList.FirstOrDefault(i => i.IsAvailable());
         }
 
-        activeMissionsList.Clear();
-        
-        activeMissionsList.Add(firstMission);
-        activeMissionsList.Add(secondMission);
-        activeMissionsList.Add(thirdMission);
+        activeMissionsHolder.activeMissionsList.Clear();
 
-        /*
-        for (int i = 0; i < allMissionsList.Count; i++)
-        {
-            if (allMissionsList[i].IsAvailable())
-            {
-                activeMissionsList.Add(allMissionsList[i]);
-            }
-        }
-        */
+        activeMissionsHolder.activeMissionsList.Add(firstMission);
+        activeMissionsHolder.activeMissionsList.Add(secondMission);
+        activeMissionsHolder.activeMissionsList.Add(thirdMission);
     }
 
     public void OnOpenMissionsUI()
     { 
         missionsUI.gameObject.SetActive(true);
-        missionsUI.CreateUI(activeMissionsList);
+        missionsUI.CreateUI(activeMissionsHolder.activeMissionsList);
     }
 
     public void OnCloseMissionsUI()

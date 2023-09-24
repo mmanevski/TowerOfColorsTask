@@ -446,7 +446,7 @@ RectTransform:
   - {fileID: 1541386794}
   - {fileID: 2075807567}
   m_Father: {fileID: 1508039425}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1273,7 +1273,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &165353077
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1327,7 +1327,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c823c862939e78f46a1ae6e5cdcbcfd8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6be4398eb41eca941a2e835bc4d9c53e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5524,7 +5524,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1508039425}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 270, y: 0, z: 0}
 --- !u!199 &653840653
 ParticleSystemRenderer:
@@ -12237,7 +12237,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &860228423
 GameObject:
@@ -13173,7 +13173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.7460531, b: 0.5424528, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -13947,12 +13947,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1020473219}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1508039425}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1020473221
 MonoBehaviour:
@@ -13971,14 +13971,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f5c81d1f66a00b1498a223e6f53aab78, type: 2}
   - {fileID: 11400000, guid: 7b7e5736b6cf4d048899c8cd0f32423a, type: 2}
   - {fileID: 11400000, guid: 8f587180252d2604192406e7e31b11f1, type: 2}
-  - {fileID: 11400000, guid: 2c6148fba5476564384ea1fec1975d12, type: 2}
-  - {fileID: 11400000, guid: 76ec9acbce712d64e95e83a1c7587e01, type: 2}
-  - {fileID: 11400000, guid: 1b2f31370333b6142831919f727032b8, type: 2}
-  - {fileID: 11400000, guid: 7e1baaabc912d8e42aecef60de2c79c7, type: 2}
-  - {fileID: 11400000, guid: 7e41f2c5fc9b39f45ab78d6c9ecc986d, type: 2}
-  - {fileID: 11400000, guid: d0727ed525de72f49a036b2bbc4b5977, type: 2}
-  - {fileID: 11400000, guid: aff104dc975aa92408799767ecea38fc, type: 2}
   activeMissionsList: []
+  activeMissionsHolder: {fileID: 11400000, guid: 2a899f94f4c84274e80a2792ebd2dcf6,
+    type: 2}
   numberOfActiveMissions: 3
 --- !u!1 &1023068755
 GameObject:
@@ -14123,7 +14118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.57254905, b: 0.1882353, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -14303,7 +14298,7 @@ Transform:
   - {fileID: 191066738}
   - {fileID: 986163068}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1044886640
 GameObject:
@@ -14848,7 +14843,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1128316113
 GameObject:
@@ -15872,7 +15867,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.7460531, b: 0.5424528, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -15949,9 +15944,7 @@ MonoBehaviour:
   percentFill: {fileID: 604860590}
   percentSlider: {fileID: 496107147}
   iconBg: {fileID: 135830762}
-  timerIcon: {fileID: 531934171}
   smoothTime: 0.5
-  stepIncrement: 0.01
 --- !u!1 &1274622123
 GameObject:
   m_ObjectHideFlags: 0
@@ -16135,7 +16128,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22451668, guid: 0abab5bb77339e4428787a870eb31bd3, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 22451668, guid: 0abab5bb77339e4428787a870eb31bd3, type: 3}
       propertyPath: m_AnchorMax.x
@@ -16680,7 +16673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.7460531, b: 0.5424528, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -16928,7 +16921,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1508039425}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1377880315
 MonoBehaviour:
@@ -17580,6 +17573,7 @@ MonoBehaviour:
   comboUI: {fileID: 1801788717}
   powerUpUI: {fileID: 146518856}
   pauseButton: {fileID: 403611096}
+  misionButton: {fileID: 723101338}
   oneBallRemaining: {fileID: 658771070}
   percentRequiredPerLevel:
     serializedVersion: 2
@@ -17782,13 +17776,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1861756932}
-  - {fileID: 1020473220}
   - {fileID: 41607342}
   - {fileID: 2115988534}
   - {fileID: 1377880314}
   - {fileID: 653840652}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1511363452
 GameObject:
@@ -23664,7 +23657,7 @@ Transform:
   m_Children:
   - {fileID: 1589071469}
   m_Father: {fileID: 1508039425}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2135143429
 GameObject:

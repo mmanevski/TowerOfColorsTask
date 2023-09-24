@@ -35,6 +35,8 @@ public class GameManager : Singleton<GameManager>
     [SerializeField]
     GameObject pauseButton;
     [SerializeField]
+    GameObject misionButton;
+    [SerializeField]
     Animation oneBallRemaining;
     [SerializeField]
     AnimationCurve percentRequiredPerLevel;
@@ -96,7 +98,6 @@ public class GameManager : Singleton<GameManager>
         //Check first if the explosive barrels should appear.
         if (RemoteConfig.BOOL_EXPLOSIVE_BARRELS_ENABLED)
         {
-            //TODO: Make this prettier 
             int _lvlForExplosives = SaveData.CurrentLevel - (RemoteConfig.INT_EXPLOSIVE_BARRELS_MIN_LEVEL - 1);
             tower.SpecialTileChance = specialTileChancePerLevel.Evaluate(_lvlForExplosives);
 
@@ -110,7 +111,8 @@ public class GameManager : Singleton<GameManager>
         tower.OnTileDestroyedCallback += OnTileDestroyed;
         tower.BuildTower();
 
-        tileCount = tower.FloorCount * tower.TileCountPerFloor;
+        tileCount = tower.GetTotalNumberOfTiles();
+
         ballCount = Mathf.FloorToInt(ballToTileRatioPerLevel.Evaluate(SaveData.CurrentLevel) * tileCount);
         startingBallCount = ballCount;
         ballCountText.text = ballCount.ToString("N0");
@@ -132,6 +134,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         pauseButton.SetActive(RemoteConfig.BOOL_PAUSE_BUTTON_ENABLED);
+        misionButton.SetActive(RemoteConfig.BOOL_MISSION_SYSTEM_ENABLED);
 
     }
 

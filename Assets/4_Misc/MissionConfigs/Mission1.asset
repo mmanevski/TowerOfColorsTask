@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   missionType: 0
-  image: {fileID: 21300000, guid: 1881d50d27ba1e84280ec37f3675c0af, type: 3}
-  descriptionText: Destroy 200 tiles
-  goal: 200
+  image: {fileID: 21300000, guid: 61ecdded871dc5c4b9de3ce27684988f, type: 3}
+  descriptionText: Destroy 500 Tiles
+  goal: 500
   dificulty: 2
   reward: {fileID: 11400000, guid: 34e9e3b551fc903418860c19bdf12b1d, type: 2}
