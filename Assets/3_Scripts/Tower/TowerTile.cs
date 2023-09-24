@@ -35,6 +35,8 @@ public class TowerTile : MonoBehaviour
     private bool initialized;
     private bool freezed;
 
+    private bool isSelected = false;
+
     protected virtual void Awake()
     {
         TileColorManager.Instance.OnColorListChanged += ResetColor;
@@ -99,6 +101,12 @@ public class TowerTile : MonoBehaviour
     public void SetSelected()
     {
         renderer.sharedMaterial = TileColorManager.GetSharedMaterial(selectedMaterial, TileColorManager.Instance.GetColor(ColorIndex));
+        isSelected = true;
+    }
+
+    public bool IsSelected()
+    {
+        return isSelected;
     }
 
     public virtual void SetColor(Color color)

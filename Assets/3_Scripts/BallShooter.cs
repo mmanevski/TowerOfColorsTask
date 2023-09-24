@@ -62,6 +62,9 @@ public class BallShooter : MonoBehaviour
 
     public void SaveTarget(Vector3 targetPosition, TowerTile target)
     {
+        if (target.IsSelected())
+            return;
+
         SavedTarget _target;
         _target.position = targetPosition;
         _target.tile = target;
