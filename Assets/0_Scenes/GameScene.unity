@@ -10921,7 +10921,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 298}
+  m_AnchoredPosition: {x: 0, y: 238.9}
   m_SizeDelta: {x: 540, y: 213.3349}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &740260063
@@ -10967,7 +10967,7 @@ MonoBehaviour:
   m_spriteAsset: {fileID: 0}
   m_tintAllSprites: 0
   m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: 0
+  m_TextStyleHashCode: -1183493901
   m_overrideHtmlColors: 0
   m_faceColor:
     serializedVersion: 2
@@ -10979,9 +10979,9 @@ MonoBehaviour:
   m_fontSizeMin: 6
   m_fontSizeMax: 64
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
-  m_textAlignment: 514
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
+  m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0.6
@@ -13971,7 +13971,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f5c81d1f66a00b1498a223e6f53aab78, type: 2}
   - {fileID: 11400000, guid: 7b7e5736b6cf4d048899c8cd0f32423a, type: 2}
   - {fileID: 11400000, guid: 8f587180252d2604192406e7e31b11f1, type: 2}
-  activeMissionsList: []
   activeMissionsHolder: {fileID: 11400000, guid: 2a899f94f4c84274e80a2792ebd2dcf6,
     type: 2}
   numberOfActiveMissions: 3

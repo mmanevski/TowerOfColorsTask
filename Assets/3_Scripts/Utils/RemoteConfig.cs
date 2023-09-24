@@ -14,7 +14,7 @@
     public static bool POWER_UP_THREE_ENABLED = true;
     public static int POWER_UP_THREE_USES = 3;
     public static int POWER_UP_MULTIBALLS_AMOUNT = 5;
-    public static bool TOWER_BOX_SHAPE_ENABLED = true;
+    public static bool TOWER_BOX_SHAPE_ENABLED = false;
     public static bool BOOL_MISSION_SYSTEM_ENABLED = true;
 
 

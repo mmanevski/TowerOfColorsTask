@@ -30,8 +30,6 @@ public class PercentCounter : MonoBehaviour
     Image fullPercentImage;
     [SerializeField]
     float smoothTime = 0.5f;
-    [SerializeField]
-    float stepIncrement = 0.01f;
 
     Coroutine animateRoutine;
 

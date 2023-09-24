@@ -62,8 +62,6 @@ public class GameUI : MonoBehaviour
                 {
                     ballShooter.SaveTarget(hit.point, tile);
                     return;
-                    if (tile && tile.Active)
-                        ballShooter.ShootTarget(hit.point, tile);
                 }
 
                 if (tile && tile.Active)

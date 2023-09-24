@@ -75,8 +75,8 @@ public class GameManager : Singleton<GameManager>
     PowerUpConfig currentPowerUp;
     float defaultTimeScale;
     int multiballsLeft;
+    float multiballsTimescaleModif = 0.25f;
 
-    int ballMiss = 0;
 
     private void Awake()
     {
@@ -263,7 +263,6 @@ public class GameManager : Singleton<GameManager>
             {
                 timerActive = false;
                 SetGameState(GameState.WaitingLose);
-                missionManager.RecordHigscore(destroyedTileCount);
                 missionManager.LevelFinished();
             }
         }
@@ -276,7 +275,7 @@ public class GameManager : Singleton<GameManager>
         switch (powerUp.type)
         {
             case PowerUpType.Multyball:
-                HandleMultiball();
+                HandleMultiball(powerUp.value);
                 break;
             case PowerUpType.TimerBoost:
                 HandleTimerBoost(powerUp.value);
@@ -303,12 +302,12 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    private void HandleMultiball()
+    private void HandleMultiball(int val)
     {
-        multiballsLeft = RemoteConfig.POWER_UP_MULTIBALLS_AMOUNT;
+        multiballsLeft = val; //RemoteConfig.POWER_UP_MULTIBALLS_AMOUNT;
         ballCountText.gameObject.SetActive(false);
         powerUpUI.PowerUpActive();
-        Time.timeScale = defaultTimeScale * 0.25f;
+        Time.timeScale = defaultTimeScale * multiballsTimescaleModif;
         SetGameState(GameState.PowerUp);
 
     }
